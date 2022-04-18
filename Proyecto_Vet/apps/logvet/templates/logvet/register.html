@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+{% load static %}
+{% load widget_tweaks %}
+
+
+
+
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <title>{{ title }}</title>
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="{% static 'lib/adminlte-3.0.4/plugins/font-awesome-5.11.1/css/all.min.css' %}">
+    <!-- Theme style -->
+    <link rel="stylesheet" href="{% static 'lib/adminlte-3.0.4/css/adminlte.min.css' %}">
+    <!-- Google Font: Source Sans Pro -->
+    <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
+    <!-- jQuery -->
+    <script src="{% static 'lib/adminlte-3.0.4/plugins/jquery/jquery.min.js' %}"></script>
+    <!-- Jquery Confirm -->
+    <link rel="stylesheet" href="{% static 'lib/jquery-confirm-v3.3.4/jquery-confirm.min.css' %}">
+    <script src="{% static 'lib/jquery-confirm-v3.3.4/jquery-confirm.min.js' %}"></script>
+    <!-- My css -->
+    <link rel="stylesheet" href="{% static 'css/mystyle.css' %}">
+
+
+
+    <!-- Block head -->
+
+</head>
+<body class="content" style="background-image: url({% static 'img/login-bg.jpg'%}); background-repeat: no-repeat;">
+<div class="container">
+  <div class="register-logo">
+    <a href="{% url 'index' %}"><b>Refugio</b>Log</a>
+  </div>
+
+  <div class="card">
+    <div class="card-body register-card-body">
+
+      <form method="post" action="." enctype="multipart/form-data">
+        <div class="card card-primary">
+            <div class="card-header">
+                <h3 class="card-title">
+                    {% if action == 'add' %}
+                        <i class="fas fa-user"></i>
+                    {% else %}
+                        <i class="fas fa-edit"></i>
+                    {% endif %}
+
+                     {{ title }}
+                </h3>
+            </div>
+            <div class="card-body">
+                {% csrf_token %}
+                <input type="hidden" name="action" value="{{ action }}">
+                {% if form.errors %}
+                    <div class="alert alert-danger alert-dismissible">
+                        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                        <h5><i class="icon fas fa-ban"></i> Ha ocurrido un error al querer guardar el registro</h5>
+                        <ul>
+                            {% for field in form %}
+                                {% for error in field.errors %}
+                                    <li>{{ error }}</li>
+                                {% endfor %}
+                            {% endfor %}
+                        </ul>
+                    </div>
+                {% endif %}
+                {% for field in form.visible_fields %}
+                    <div class="form-group">
+                        <label for="email">{{ field.label }}:</label>
+                        {{ field|add_class:'form-control'|attr:'autocomplete:off' }}
+                    </div>
+                {% endfor %}
+            </div>
+            <div class="card-footer">
+                <button type="submit" class="btn btn-primary btn-flat">
+                    <i class="fas fa-save"></i> Crear Usuario
+                </button>
+            </div>
+        </div>
+    </form>
+    <script>
+        {% if form.errors %}
+            var errors = '';
+            {% for field in form %}
+                {% for error in field.errors %}
+                    errors += '{{ error }}\n';
+                {% endfor %}
+            {% endfor %}
+            {% for error in form.non_field_errors %}
+                errors += '{{ error }}\n';
+            {% endfor %}
+            Swal.fire({
+                title: 'Error!',
+                text: errors,
+                icon: 'error'
+            });
+        {% endif %}
+
+        $('form').on('submit', function (e) {
+            e.preventDefault();
+            //var parameters = $(this).serializeArray();
+            var parameters = new FormData(this);
+            submit_with_ajax(window.location.pathname, 'Notificación', '¿Estas seguro de realizar la siguiente acción?', parameters, function () {
+                location.href = '{{ list_url }}';
+            });
+        });
+    </script>
+</div>
+<!-- /.form-box -->
+</div><!-- /.card -->
+</div>
+
+<!-- Bootstrap 4 -->
+<script src="{% static 'lib/adminlte-3.0.4/plugins/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
+<!-- AdminLTE App -->
+<script src="{% static 'lib/adminlte-3.0.4/js/adminlte.min.js' %}"></script>
+<link href="{% static 'lib/select2-4.0.13/css/select2.min.css' %}" rel="stylesheet"/>
+<link href="{% static 'lib/select2-4.0.13/css/select2-bootstrap4.min.css' %}" rel="stylesheet"/>
+<script src="{% static 'lib/select2-4.0.13/js/select2.min.js' %}"></script>
+<script src="{% static 'lib/select2-4.0.13/js/i18n/es.js' %}"></script>
+<script src="{% static 'user/js/form.js' %}"></script>
+<!-- Functions -->
+<script src="{% static 'js/functions.js' %}"></script>
+<!-- Bootstrap 4 -->
+<script src="{% static 'lib/adminlte-3.0.4/plugins/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
+<!-- AdminLTE App -->
+<script src="{% static 'lib/adminlte-3.0.4/js/adminlte.min.js' %}"></script>
+<!-- Sweetalert2 -->
+<script src="{% static 'lib/sweetalert2-9.10.0/sweetalert2.all.min.js' %}"></script>
+
+</body>
+</html>

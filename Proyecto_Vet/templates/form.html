@@ -49,9 +49,15 @@
                 <a href="{{ list_url }}" class="btn btn-danger btn-flat">
                     <i class="fas fa-times"></i> Cancelar
                 </a>
+
+                {% block reco %}
+
+                {% endblock %}
+
             </div>
         </div>
     </form>
+
     <script>
         {% if form.errors %}
             var errors = '';
@@ -80,3 +86,4 @@
         });
     </script>
 {% endblock %}
+

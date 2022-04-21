@@ -1,1 +1,322 @@
-{% extends 'form.html' %}
+{% load static %}
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+
+		 <!-- ETIQUETAS REFERENCIALES -->
+	    <meta name="description" content="Tienda Online de Tecnología y Más.">
+	    <meta name="keywords" content="tienda, compras, precio, ventas, ecomerce, comercio, online, store, TEM, tecnología, accesorios,
+	    computadoras, impresoras, arduino, cables, teclados, mouses, keyboard, laptop">
+
+	    <meta http-equiv="author" content="Abdias Alvarado">
+
+		<title>Tienda Nomnre-Componentes Electrónicos</title>
+
+		<!-- Google Fonts -->
+		<link href="https://fonts.googleapis.com/css?family=Montserrat:400,500,700" rel="stylesheet">
+
+		<!-- Bootstrap -->
+		<link type="text/css" rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}"/>
+
+		<!-- Font Awesome Icon -->
+		<link rel="stylesheet" href="{% static 'css\font-awesome.min.css' %}">
+
+		<!-- Hoja de estilo personalizada -->
+		<link type="text/css" rel="stylesheet" href="{% static 'css\custom.css' %}"/>
+
+		<script src="https://code.jquery.com/jquery-3.1.0.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script> 
+		
+    </head>
+	<body>
+		<!-- HEADER -->
+		<header>
+			<div id="encabezado-superior">
+				<div class="container">
+					<ul class="header-links pull-left">
+						<li><a><i class="fa fa-phone"></i> +502 xxxx-xxxx</a></li>
+						<li><a href="modificarcorreo@gmail.com"><i class="fa fa-envelope-o"></i> nuestro@gmail.com</a></li>
+						<li><a href="colocar direccion maps"><i class="fa fa-map-marker"></i> Ciudad de Guatemala</a></li>
+					</ul>
+					<ul class="header-links pull-right">
+						{% if user.is_authenticated %}
+						<li><a href=><i class="fa fa-user-o"></i>  Bienvenido, {{ user.username }} </a></li>
+						{% if user.is_staff%}
+						<li><a href="/admin"><i class="fa fa-pencil-square-o" aria-hidden="true"></i>  Administrar </a></li>
+						{% endif %} 
+						<li><a href="{% url 'logout' %}"><i class="fa fa-sign-out"></i> Cerrar Sesión</a></li>
+						{%else%}
+						<li><a href="{% url 'login' %}"><i class="fa fa-user-o"></i> Login</a></li> 
+						{% endif %} 
+					</ul>
+				</div>
+			</div>
+
+			<div id="header">
+				<div class="container">
+					<div class="row">
+						<div class="col-md-3">
+							<div class="header-logo">
+								<a href={% url 'dashboard' %} class="logo">
+									<img src="{% static 'img/logo.png' %}" alt="Logo TEM Store" width="50px">
+									ElectroLac
+								</a>
+							</div>
+						</div>
+
+						<!-- BARRA DE BÚSQUEDA -->
+						<div class="col-md-6">
+							<div class="header-search">
+								
+							</div>
+						</div>
+						<!-- /BARRA DE BÚSQUEDA -->
+
+						<!-- USUARIO -->
+						<div class="col-md-3 clearfix">
+							<div class="header-ctn">
+								<!-- Deseos -->
+								<!-- /Deseos -->
+
+								<!-- Carrito -->
+								<div class="dropdown">
+									<a href="carrito.html" class="dropdown-toggle" data-toggle="dropdown" aria-expanded="true">
+										<i class="fa fa-shopping-cart"></i>
+										<span>Carrito</span>
+									</a>
+								</div>
+								<!-- /Carrito -->
+
+								<!-- Menu Toogle -->
+								<div class="menu-toggle">
+									<a href="#">
+										<i class="fa fa-bars"></i>
+										<span>Menu</span>
+									</a>
+								</div>
+								<!-- /Menu Toogle -->
+							</div>
+						</div>
+						<!-- /USUARIO-->
+					</div>
+				</div>
+			</div>
+		</header>
+		<!-- /HEADER -->
+
+		<nav id="navigation">
+			<!-- container -->
+			<div class="container">
+				<div id="responsive-nav">
+					<ul class="main-nav nav navbar-nav">
+					{% if user.is_authenticated %}
+						<li class="active"><a href="{% url 'dashboard' %}">Inicio</a></li>
+					{%else%}
+						<li class="active"><a href="{% url 'home' %}">Inicio</a></li>
+					{% endif %}
+
+					</ul>
+				</div>
+			</div>
+		</nav>
+
+		<!-- CONTENIDO -->
+		<div class="section">
+			<!-- container -->
+			<div class="container">
+				<!-- row -->
+				<div class="row">
+
+		<!-- <div class="col-md-12">
+						<div class="section-title text-center"> row -->
+						
+						
+		<!-- <div class="col-md-12">
+						<div class="section-title text-center"> row -->
+		
+				<div class="col-md-12">
+					<div class="section-title text-center">
+					<h3 class="title">Mi Perfil</h3>
+					</div>
+					{% for info in informacion %}
+						{% if info.id == user.id %}
+											<table class="table">
+
+				<tbody>
+										<td>
+										<tr>
+											<td><h4 class="product-nombres">Nombre completo: {{info.first_name}}, {{info.last_name}}</a></h4></td>
+
+											<td> <img src="{{ info.get_photo_url }}"  width="170" height="170" class="img-responsive thumbnail " alt="img"> </td>											
+										</tr>
+										<tr>
+										<td>	<h4 class="product-username">Nombre de Usuario: {{info.username}}</a></h4>  </td>
+										</tr>
+										<tr>
+										<td>	<h4 class="product-price">Correo Electronico: {{info.email}}</h4>  </td>  </td>
+										</tr>
+										<tr>
+										<td>	<h4 class="product-stock">Edad: {{info.edad}}</h4>  </td>  </td>
+										</tr>
+										<tr>
+										<td>	<h4 class="product-username">Tipo de cuenta: {{info.type}}</a></h4>  </td>
+										</tr>	
+										</td>
+																		
+				</tbody>
+				</table>
+							{% endif %}												
+					{% endfor %}
+					</div>
+				</div>
+
+			<div class="col-md-4">
+				<button type="button"  data-toggle="modal" data-target="#myModal">Registrar Rostro</button>
+				</button>
+        	</div>
+
+		<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+				<h4 class="modal-title" id="myModalLabel">Ingrese su identificación única (descrita a continuación) y espere a la cámara web </h4>
+			</div>
+			<div class="modal-body">
+				<ul>
+					<li> Para mayor precisión, asegúrese de permanecer en una habitación con buena iluminación. </li>
+					<li> Quite cualquier tipo de accesorio de la cara. </li>
+					<li> Asegúrate de que tu cara esté claramente visible en la cámara. </li>
+					<li> Asegúrese de que su cabello no bloquee la cara. </li>
+					<li> Asegúrese de que no haya otras caras dentro del marco de la cámara. 
+				</ul>
+				<hr/>
+				<form action="create_dataset/" method="POST">
+				{% csrf_token %}
+				<div class="form-group">
+					<label for="inputId">Ingrese su ID único de usuario, su ID es: {{user.id}} </label>
+					<input type="text" class="form-control" name="userId" id="inputId" placeholder="Enter Id">
+				</div>
+				<button type="submit" class="btn btn-warning">Enviar</button>
+				</form>
+			</div>
+			</div>
+		</div>
+		</div>
+		</div>
+
+
+				
+				
+				
+				
+				
+					<!-- /product -->
+				</div>
+				<!-- /row -->
+			</div>
+			<!-- /container -->
+		</div>
+		<!-- /Section -->
+
+
+
+		<!-- /CONTENIDO -->
+
+
+
+
+		<!-- FOOTER -->
+		<footer id="footer">
+			<div class="section">
+				<!-- container -->
+				<div class="container">
+					<!-- row -->
+					<div class="row">
+						<div class="col-md-3 col-xs-6">
+							<div class="footer">
+								<h3 class="footer-title">Sobre Nosotros</h3>
+								<p>Nos dedicamos a ofrecerte componentes electronicos al mejor precio del mercado.</p>
+								<ul class="footer-links">
+									<li><a href="https://goo.gl/maps/N4Cdk8s9FdN2"><i class="fa fa-map-marker"></i>Ciudad de Guatemela</a></li>
+									<li><a><i class="fa fa-phone"></i>+504 xxxx-xxxx</a></li>
+									<li><a href="mailto:temstorehn@gmail.com"><i class="fa fa-envelope-o"></i> correo@gmail.com</a></li>
+								</ul>
+							</div>
+						</div>
+
+						<div class="col-md-3 col-xs-6">
+							<div class="footer">
+								<h3 class="footer-title">Categorías</h3>
+								<ul class="footer-links">
+
+									{% for category in categorys %}
+										<li><a href="/account/{{category}}.html">{{category}}</a></li>
+									{% endfor %}
+
+									<!-- <li><a href="proyectos.html">Proyectos</a></li>
+									<li><a href="microcontroladores.html">Microcontroladores</a></li>
+									<li><a href="electronica.html">Electrónica</a></li>
+									<li><a href="arduino.html">Arduino</a></li>
+									<li><a href="bocinas.html">Bocinas</a></li> -->
+
+								</ul>
+							</div>
+						</div>
+
+						<div class="clearfix visible-xs"></div>
+
+						<div class="col-md-3 col-xs-6">
+							<div class="footer">
+								<h3 class="footer-title">Información</h3>
+								<ul class="footer-links">
+									<li><a href="sobrenosotros.html">Sobre Nosotros</a></li>
+									<li><a href="contactanos.html">Contáctanos</a></li>
+									<li><a href="politicasdeprivacidad.html">Políticas de Privacidad</a></li>
+									<li><a href="terminosycondiciones.html">Términos y Condiciones</a></li>
+								</ul>
+							</div>
+						</div>
+
+						<div class="col-md-3 col-xs-6">
+							<div class="footer">
+								<h3 class="footer-title">Clientes</h3>
+								<ul class="footer-links">
+									{% if user.is_authenticated%}
+									<li><a href={% url 'user_profile' %}>Mi Perfil</a></li>
+									<li><a href="carrito.html">Ver Carrito</a></li>
+									{% else %}
+									<li><a href={% url 'login' %}>Mi Perfil</a></li>
+									<li><a href={% url 'login' %}>Ver Carrito</a></li>
+									{% endif %}	
+								</ul>
+							</div>
+						</div>
+					</div>
+					<!-- /row -->
+				</div>
+				<!-- /container -->
+			</div>
+			<div id="bottom-footer" class="section">
+				<div class="container">
+					<div class="row">
+						<div class="col-md-12 text-center">
+							<span class="copyright">
+								Copyright &copy; 2021
+							</span>
+						</div>
+					</div>
+				</div>
+			</div>
+		</footer>
+		<!-- /FOOTER -->
+
+
+		<script src="js/bootstrap.min.js"></script>
+		<script src="js/jquery.min.js"></script>
+
+	</body>
+</html>

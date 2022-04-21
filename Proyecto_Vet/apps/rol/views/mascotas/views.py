@@ -5,10 +5,11 @@ from django.urls import reverse_lazy
 from django.utils.decorators import method_decorator
 from django.views.decorators.csrf import csrf_exempt
 from django.views.generic import ListView, CreateView, UpdateView, DeleteView
-
+from apps.user.models import User
+from django.contrib.auth.models import Group
 from apps.rol.mixins import ValidatePermissionRequiredMixin
 from apps.rol.forms import MascotasForm
-from apps.rol.models import Mascotas
+from apps.rol.models import Mascotas, Adopcion
 
 
 class MascotasListView(LoginRequiredMixin, ValidatePermissionRequiredMixin, ListView):
@@ -26,8 +27,21 @@ class MascotasListView(LoginRequiredMixin, ValidatePermissionRequiredMixin, List
             action = request.POST['action']
             if action == 'searchdata':
                 data = []
-                for i in Mascotas.objects.all():
-                    data.append(i.toJSON())
+                a = User.objects.get(pk=request.user.id)
+                b = a.dni
+                c = Group.objects.get(user=request.user.id)
+                if str(c) == 'AdminVet' or str(c) == 'AdminTotal':
+                    for i in Mascotas.objects.all():
+                        data.append(i.toJSON())
+                if str(c) == 'Adoptante':
+                    aa = Adopcion.objects.get(dpi=b)
+                    bb = aa.dpi
+                    dd = aa.pet
+                    if bb == b:
+                        c = Mascotas.objects.get(name=dd)
+                        data.append(c.toJSON())
+                # for i in Mascotas.objects.all():
+                #     data.append(i.toJSON())
             else:
                 data['error'] = 'Ha ocurrido un error'
         except Exception as e:
@@ -140,3 +154,38 @@ class MascotasDeleteView(LoginRequiredMixin, ValidatePermissionRequiredMixin, De
         context['entity'] = 'Mascotasos'
         context['list_url'] = self.success_url
         return context
+
+class MisMascotasListView(LoginRequiredMixin, ValidatePermissionRequiredMixin, ListView):
+    model = Mascotas
+    template_name = 'mascotas/listm.html'
+    permission_required = 'view_mascotas'
+
+    @method_decorator(csrf_exempt)
+    def dispatch(self, request, *args, **kwargs):
+        return super().dispatch(request, *args, **kwargs)
+
+    def post(self, request, *args, **kwargs):
+        data = {}
+        try:
+            action = request.POST['action']
+            if action == 'searchdata':
+                data = []
+                data2 = []
+                a = User.objects.get(pk=self.request.user_id)
+                print(a)
+                for i in Mascotas.objects.all():
+                    data.append(i.toJSON())
+            else:
+                data['error'] = 'Ha ocurrido un error'
+        except Exception as e:
+            data['error'] = str(e)
+        return JsonResponse(data, safe=False)
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['title'] = 'Listado de Mascotas'
+        context['create_url'] = reverse_lazy('mascotas_create')
+        context['list_url'] = reverse_lazy('mascotas_list')
+        context['entity'] = 'Mascotas'
+        return context
+

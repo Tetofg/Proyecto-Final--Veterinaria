@@ -2,6 +2,7 @@
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.http import HttpResponseRedirect, JsonResponse
+from django.shortcuts import render
 from django.urls import reverse_lazy
 from django.utils.decorators import method_decorator
 from django.views import View
@@ -12,7 +13,7 @@ from django.contrib.auth.forms import PasswordChangeForm
 
 from apps.rol.mixins import ValidatePermissionRequiredMixin
 from apps.user.models import User
-from apps.rol.forms import UserForm, UserProfileForm
+from apps.rol.forms import UserForm, UserForm2, UserProfileForm
 
 class UserListView(LoginRequiredMixin, ValidatePermissionRequiredMixin, ListView):
     model = User
@@ -63,6 +64,7 @@ class UserCreateView(LoginRequiredMixin, ValidatePermissionRequiredMixin, Create
             action = request.POST['action']
             if action == 'add':
                 form = self.get_form()
+                
                 data = form.save()
             else:
                 data['error'] = 'No ha ingresado a ninguna opción'
@@ -113,6 +115,39 @@ class UserUpdateView(LoginRequiredMixin, ValidatePermissionRequiredMixin, Update
         context['action'] = 'edit'
         return context
 
+class UserUpdateView2(LoginRequiredMixin, ValidatePermissionRequiredMixin, UpdateView):
+    model = User
+    form_class = UserForm2
+    template_name = 'user/create.html'
+    success_url = reverse_lazy('user_list')
+    permission_required = 'change_user'
+    url_redirect = success_url
+
+    def dispatch(self, request, *args, **kwargs):
+        self.object = self.get_object()
+        return super().dispatch(request, *args, **kwargs)
+
+    def post(self, request, *args, **kwargs):
+        data = {}
+        print(data)
+        try:
+            action = request.POST['action']
+            if action == 'edit':
+                form = self.get_form()
+                data = form.save()
+            else:
+                data['error'] = 'No ha ingresado a ninguna opción'
+        except Exception as e:
+            data['error'] = str(e)
+        return JsonResponse(data)
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['title'] = 'Edición de un Usuario'
+        context['entity'] = 'Usuarios'
+        context['list_url'] = self.success_url
+        context['action'] = 'edit'
+        return context
 
 class UserDeleteView(LoginRequiredMixin, ValidatePermissionRequiredMixin, DeleteView):
     model = User
@@ -154,42 +189,46 @@ class UserChangeGroup(LoginRequiredMixin, View):
             pass
         return HttpResponseRedirect(reverse_lazy('dashboard'))
 
+def perfil(request):
+    informacion = User.objects.all()
+    context = {'informacion': informacion}
+    return render(request, 'user/profile1.html', context)
 
-class UserProfileView(LoginRequiredMixin, UpdateView):
-    model = User
-    form_class = UserProfileForm
-    template_name = 'user/profile.html'
-    success_url = reverse_lazy('dashboard')
+# class UserProfileView(LoginRequiredMixin, UpdateView):
+#     model = User
+#     form_class = UserProfileForm
+#     template_name = 'user/profile1.html'
+#     success_url = reverse_lazy('dashboard')
 
 
-    def dispatch(self, request, *args, **kwargs):
-        self.object = self.get_object()
-        return super().dispatch(request, *args, **kwargs)
+#     def dispatch(self, request, *args, **kwargs):
+#         self.object = self.get_object()
+#         return super().dispatch(request, *args, **kwargs)
     
-    def get_object(self, queryset=None):
-        return self.request.user
+#     def get_object(self, queryset=None):
+#         return self.request.user
 
-    def post(self, request, *args, **kwargs):
-        data = {}
-        print(data)
-        try:
-            action = request.POST['action']
-            if action == 'edit':
-                form = self.get_form()
-                data = form.save()
-            else:
-                data['error'] = 'No ha ingresado a ninguna opción'
-        except Exception as e:
-            data['error'] = str(e)
-        return JsonResponse(data)
+#     def post(self, request, *args, **kwargs):
+#         data = {}
+#         print(data)
+#         try:
+#             action = request.POST['action']
+#             if action == 'edit':
+#                 form = self.get_form()
+#                 data = form.save()
+#             else:
+#                 data['error'] = 'No ha ingresado a ninguna opción'
+#         except Exception as e:
+#             data['error'] = str(e)
+#         return JsonResponse(data)
 
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context['title'] = 'Edición de Perfil'
-        context['entity'] = 'Perfil'
-        context['list_url'] = self.success_url
-        context['action'] = 'edit'
-        return context
+#     def get_context_data(self, **kwargs):
+#         context = super().get_context_data(**kwargs)
+#         context['title'] = 'Edición de Perfil'
+#         context['entity'] = 'Perfil'
+#         context['list_url'] = self.success_url
+#         context['action'] = 'edit'
+#         return context
 
 
 class UserChangePasswordView(LoginRequiredMixin, FormView):

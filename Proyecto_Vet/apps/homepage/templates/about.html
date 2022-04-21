@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Veterinaria JonRo</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    
+    <link href="https://fonts.googleapis.com/css?family=Montserrat:200,300,400,500,600,700,800&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+ 
+    <link rel="stylesheet" href="{% static 'dash/css/animate.css' %}">
+    
+    <link rel="stylesheet" href="{% static 'dash/css/owl.carousel.min.css' %}">
+    <link rel="stylesheet" href="{% static 'dash/css/owl.theme.default.min.css' %}">
+    <link rel="stylesheet" href="{% static 'dash/css/magnific-popup.css' %}">
+
+
+    <link rel="stylesheet" href="{% static 'dash/css/bootstrap-datepicker.css' %}">
+    <link rel="stylesheet" href="{% static 'dash/css/jquery.timepicker.css' %}">
+    <link rel="stylesheet" href="{% static 'dash/css/flaticon.css' %}">
+    <link rel="stylesheet" href="{% static 'dash/css/style.css' %}">
+  </head>
+  <body>
+
+    <div class="wrap">
+			<div class="container">
+				<div class="row">
+					<div class="col-md-6 d-flex align-items-center">
+						<p class="mb-0 phone pl-md-2">
+							<a href="#" class="mr-2"><span class="fa fa-phone mr-1"></span> +502 3159 7598</a> 
+							<a href="#"><span class="fa fa-paper-plane mr-1"></span> veterinariaproy@gmail.com </a>
+						</p>
+					</div>
+					<div class="col-md-6 d-flex justify-content-md-end">
+						<div class="social-media">
+			    		<p class="mb-0 d-flex">
+			    			<a href="#" class="d-flex align-items-center justify-content-center"><span class="fa fa-facebook"><i class="sr-only">Facebook</i></span></a>
+			    			<a href="#" class="d-flex align-items-center justify-content-center"><span class="fa fa-twitter"><i class="sr-only">Twitter</i></span></a>
+			    			<a href="#" class="d-flex align-items-center justify-content-center"><span class="fa fa-instagram"><i class="sr-only">Instagram</i></span></a>
+			    			<a href="#" class="d-flex align-items-center justify-content-center"><span class="fa fa-dribbble"><i class="sr-only">Dribbble</i></span></a>
+			    		</p>
+		        </div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<nav class="navbar navbar-expand-lg navbar-dark ftco_navbar bg-dark ftco-navbar-light" id="ftco-navbar">
+	    <div class="container">
+	    	<a class="navbar-brand" href="{% url 'index' %}"><span class="flaticon-pawprint-1 mr-2"></span>Refugio y Veterinaria ALERO</a>
+	      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#ftco-nav" aria-controls="ftco-nav" aria-expanded="false" aria-label="Toggle navigation">
+	        <span class="fa fa-bars"></span> Menu
+	      </button>
+	      <div class="collapse navbar-collapse" id="ftco-nav">
+	        <ul class="navbar-nav ml-auto">
+                <li class="nav-item active"><a href="{% url 'index' %}" class="nav-link">Inicio</a></li>
+	        	<li class="nav-item"><a href="{% url 'acerca' %}" class="nav-link">Acerca De</a></li>
+	        	<li class="nav-item"><a href="{% url 'mascadop' %}  " class="nav-link">Mascotas en Adopcion</a></li>
+	        	<li class="nav-item"><a href="{% url 'adop' %}" class="nav-link">Formulario de Adopcion</a></li>
+	          {% comment %} <li class="nav-item"><a href="gallery.html" class="nav-link">Galeria</a></li>
+	          <li class="nav-item"><a href="pricing.html" class="nav-link">Precios</a></li> {% endcomment %}
+
+			  {% if request.user.is_authenticated %}
+			  	<li class="nav-item"><a href="/dashboard" class="nav-link">Bienvenido, {{ request.user.username}}</a></li>
+			  {% else %}
+				<li class="nav-item"><a href="/login/auth" class="nav-link">Iniciar Sesion</a></li>
+				<li class="nav-item"><a href="/new/user/" class="nav-link">Registrarse</a></li>
+			  {% endif %}
+			  
+	        </ul>
+	      </div>
+	    </div>
+	  </nav>
+    <!-- END nav -->
+    <section class="hero-wrap hero-wrap-2" style="background-image: url('/static/dash/images/bg_2.jpg');" data-stellar-background-ratio="0.5">
+      <div class="overlay"></div>
+      <div class="container">
+        <div class="row no-gutters slider-text align-items-end">
+          <div class="col-md-9 ftco-animate pb-5">
+          	<p class="breadcrumbs mb-2"><span class="mr-2"><a href="{% url 'index' %}">Inicio<i class="ion-ios-arrow-forward"></i></a></span> <span>Acerca de Nosotros<i class="ion-ios-arrow-forward"></i></span></p>
+            <h1 class="mb-0 bread">Acerca de Nosotros</h1>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="ftco-section ftco-no-pt ftco-no-pb">
+    	<div class="container">
+    		<div class="row d-flex no-gutters">
+    			<div class="col-md-5 d-flex">
+    				<div class="img img-video d-flex align-self-stretch align-items-center justify-content-center justify-content-md-center mb-4 mb-sm-0" style="background-image:url(/static/dash/images/about-1.jpg);">
+    				</div>
+    			</div>
+    			<div class="col-md-7 pl-md-5 py-md-5">
+    				<div class="heading-section pt-md-5">
+	            <h2 class="mb-4">Informacion sobre ALERO</h2>
+    				</div>
+    				<div class="row">
+	    				<div class="col-md-6 services-2 w-100 d-flex">
+	    					<div class="icon d-flex align-items-center justify-content-center"><span class="flaticon-stethoscope"></span></div>
+	    					<div class="text pl-3">
+	    						<h4>Cuidamos a nuestos animales como si fueran nuestros</h4>
+	    						<p>Todas nuestros animales en adopcion tienen un riguroso cuidado, junto con tratamientos de recuperacion desde la fecha de rescate.</p>
+	    					</div>
+	    				</div>
+	    				<div class="col-md-6 services-2 w-100 d-flex">
+	    					<div class="icon d-flex align-items-center justify-content-center"><span class="flaticon-customer-service"></span></div>
+	    					<div class="text pl-3">
+	    						<h4>Adopciones Faciles</h4>
+	    						<p>A la hora de adoptar solo tienes que llenar nuestro formulario de adopcion y llenarlo con tus datos, luego podras ver tu mascota en tu perfil.</p>
+	    					</div>
+	    				</div>
+	    				<div class="col-md-6 services-2 w-100 d-flex">
+	    					<div class="icon d-flex align-items-center justify-content-center"><span class="flaticon-emergency-call"></span></div>
+	    					<div class="text pl-3">
+	    						<h4>Controles de Vacunas</h4>
+	    						<p>No sabes que vacunas tiene tu perro no te preocupes, con nosotros puedes llevar un control de vacunas que se van aplicando a tu mascota.</p>
+	    					</div>
+	    				</div>
+	    				<div class="col-md-6 services-2 w-100 d-flex">
+	    					<div class="icon d-flex align-items-center justify-content-center"><span class="flaticon-veterinarian"></span></div>
+	    					<div class="text pl-3">
+	    						<h4>Los mejores veterinarios</h4>
+	    						<p>Contamos con un el mejor equipo de veterinarios proveyendo los mejores servicios a nuestras mascotas rescatadas.</p>
+	    					</div>
+	    				</div>
+	    			</div>
+	        </div>
+        </div>
+    	</div>
+    </section>
+
+
+
+    <section class="ftco-section testimony-section" style="background-image: url('/static/dash/images/bg_2.jpg');">
+    	<div class="overlay"></div>
+      <div class="container">
+        <div class="row justify-content-center pb-5 mb-3">
+          <div class="col-md-7 heading-section text-center ftco-animate">
+            <h2>Clientes felices y comentarios</h2>
+          </div>
+        </div>
+        <div class="row ftco-animate">
+          <div class="col-md-12">
+            <div class="carousel-testimony owl-carousel ftco-owl">
+              <div class="item">
+                <div class="testimony-wrap py-4">
+                	<div class="icon d-flex align-items-center justify-content-center"><span class="fa fa-quote-left"></span></div>
+                  <div class="text">
+                    <p class="mb-4">Black es un gato muy inteligente. Sabe abrir los cajones, las gavetas de la cocina y la nevera. Y muy activo. Tanto, que un día no lo encontraba pero por fortuna lo encontre dentro de una caja en mi habitacion. Pero hoy, con mucho amor y paciencia, se encariño de mi. Mi relación con Black es increíble, ella me protege de todo y yo lo adoro.</p>
+                    <div class="d-flex align-items-center">
+                    	<div class="user-img" style="background-image: url(/static/dash/images/person_1.jpg)"></div>
+                    	<div class="pl-3">
+		                    <p class="name">Luis Castillo</p>
+		                  </div>
+	                  </div>
+                  </div>
+                </div>
+              </div>
+              <div class="item">
+                <div class="testimony-wrap py-4">
+                	<div class="icon d-flex align-items-center justify-content-center"><span class="fa fa-quote-left"></span></div>
+                  <div class="text">
+                    <p class="mb-4">Soy muy privilegiado de tener a Hercules. Mi mamá y yo lo consentimos mucho. Come muy bien y tiene permiso de dormir en las camas que quiera. Es un perrito que nos da mucho amor.</p>
+                    <div class="d-flex align-items-center">
+                    	<div class="user-img" style="background-image: url(/static/dash/images/person_2.jpg)"></div>
+                    	<div class="pl-3">
+		                    <p class="name">Roger Scott</p>
+		                  </div>
+	                  </div>
+                  </div>
+                </div>
+              </div>
+              <div class="item">
+                <div class="testimony-wrap py-4">
+                	<div class="icon d-flex align-items-center justify-content-center"><span class="fa fa-quote-left"></span></div>
+                  <div class="text">
+                    <p class="mb-4">Sin dudas, adoptar a Peety hizo que saliera más de la casa, empezara a hacer ejercicio e interactuara más con la gente. De a poco se vieron los cambios, amo con todo mi corazon a Peety, me cambio la manera de como miraba el mundo</p>
+                    <div class="d-flex align-items-center">
+                    	<div class="user-img" style="background-image: url(/static/dash/images/person_3.jpg)"></div>
+                    	<div class="pl-3">
+		                    <p class="name">Jose Lopez</p>
+		                  </div>
+	                  </div>
+                  </div>
+                </div>
+              </div>
+       
+             
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  
+    <footer class="footer">
+			<div class="container">
+				<div class="row">
+					<div class="col-md-6 col-lg-4 mb-4 mb-md-0">
+						<h2 class="footer-heading">Refugio y Veterinaria ALERO</h2>
+						<p>El mejor refugio de la ciudad</p>
+						<ul class="ftco-footer-social p-0">
+              <li class="ftco-animate"><a href="#" data-toggle="tooltip" data-placement="top" title="Twitter"><span class="fa fa-twitter"></span></a></li>
+              <li class="ftco-animate"><a href="#" data-toggle="tooltip" data-placement="top" title="Facebook"><span class="fa fa-facebook"></span></a></li>
+              <li class="ftco-animate"><a href="#" data-toggle="tooltip" data-placement="top" title="Instagram"><span class="fa fa-instagram"></span></a></li>
+            </ul>
+
+					</div>
+				<div class="col-md-12 col-lg-4 pl-lg-5 mb-8 mb-md-0">
+						<h2 class="footer-heading">Links</h2>
+						<ul class="list-unstyled">
+              <li><a href="#" class="py-2 d-block">Inicio</a></li>
+              <li><a href="#" class="py-2 d-block">Acerca De</a></li>
+              <li><a href="#" class="py-2 d-block">Mascotas en Adopcion</a></li>
+              <li><a href="#" class="py-2 d-block">Formulario de Adopcion</a></li>
+            </ul>
+					</div>
+					<div class="col-md-12 col-lg-3 mb-8 mb-md-0">
+						<h2 class="footer-heading">Contactanos o Visitanos</h2>
+						<div class="block-23 mb-3">
+              <ul>
+                <li><span class="icon fa fa-map"></span><span class="text">16 Calle Zona 12 12-19, Guatemala, Guatemala</span></li>
+                <li><a href="#"><span class="icon fa fa-phone"></span><span class="text">+502 3159 7598<</span></a></li>
+                <li><a href="#"><span class="icon fa fa-paper-plane"></span><span class="text"> veterinariaproy@gmail.com </span></a></li>
+              </ul>
+            </div>
+					</div>
+				</div>
+				<div class="row mt-5">
+          <div class="col-md-12 text-center">
+
+            <p class="copyright"><!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
+  Copyright &copy;<script>document.write(new Date().getFullYear());</script> All rights reserved | This template is made with <i class="fa fa-heart" aria-hidden="true"></i> by <a href="https://colorlib.com" target="_blank">Colorlib.com</a>
+  <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. --></p>
+          </div>
+        </div>
+			</div>
+		</footer>
+
+    
+
+<!-- loader -->
+<div id="ftco-loader" class="show fullscreen"><svg class="circular" width="48px" height="48px"><circle class="path-bg" cx="24" cy="24" r="22" fill="none" stroke-width="4" stroke="#eeeeee"/><circle class="path" cx="24" cy="24" r="22" fill="none" stroke-width="4" stroke-miterlimit="10" stroke="#F96D00"/></svg></div>
+
+
+<script src="{% static 'dash/js/jquery.min.js' %}"></script>
+<script src="{% static 'dash/js/jquery-migrate-3.0.1.min.js' %}"></script>
+<script src="{% static 'dash/js/jquery.easing.1.3.js' %}"></script>
+<script src="{% static 'dash/js/jquery.waypoints.min.js' %}"></script>
+<script src="{% static 'dash/js/jquery.stellar.min.js' %}"></script>
+<script src="{% static 'dash/js/jquery.animateNumber.min.js' %}"></script>
+<script src="{% static 'dash/js/bootstrap-datepicker.js' %}"></script>
+<script src="{% static 'dash/js/jquery.timepicker.min.js' %}"></script> 
+<script src="{% static 'dash/js/owl.carousel.min.js' %}"></script>
+<script src="{% static 'dash/js/jquery.magnific-popup.min.js' %}"></script>
+<script src="{% static 'dash/js/scrollax.min.js' %}"></script>
+<script src="{% static 'dash/js/main.js' %}"></script>
+
+
+    
+  </body>
+</html>

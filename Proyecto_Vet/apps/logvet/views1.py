@@ -1,11 +1,12 @@
+from os import access
 import smtplib
 import uuid
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
-
+from axes.decorators import axes_dispatch
 from apps.logvet.forms1 import NewUserForm
 
-from django.contrib.auth import login, logout
+from django.contrib.auth import login, logout, authenticate
 from django.shortcuts import redirect, render
 from django.contrib.auth.views import LoginView, LogoutView
 from django.conf import settings as setting
@@ -59,7 +60,7 @@ class LoginFormView2(FormView):
 
 
 class LogoutView(RedirectView):
-    pattern_name = 'login'
+    pattern_name = 'index'
 
     def dispatch(self, request, *args, **kwargs):
         logout(request)
@@ -165,12 +166,13 @@ class NewUserView(CreateView):
     model = User
     form_class = NewUserForm
     template_name = 'logvet/register.html'
-    success_url = reverse_lazy('login')
+    success_url = reverse_lazy('user_profile')
 
 
     def dispatch(self, request, *args, **kwargs):
         return super().dispatch(request, *args, **kwargs)
 
+    @method_decorator(axes_dispatch, name='dispatch')
     def post(self, request, *args, **kwargs):
         data = {}
         try:
@@ -178,6 +180,10 @@ class NewUserView(CreateView):
             if action == 'add':
                 form = self.get_form()
                 data = form.save()
+                # username = self.request.POST['username']
+                # password = self.request.POST['password']
+                # user = authenticate(request,username=username, password=password)
+                # login(self.request, user)
             else:
                 data['error'] = 'No ha ingresado a ninguna opción'
         except Exception as e:

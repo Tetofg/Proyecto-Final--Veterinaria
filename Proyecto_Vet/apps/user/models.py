@@ -7,7 +7,7 @@ from Proyecto_Vet.settings import MEDIA_URL, STATIC_URL
 from crum import get_current_request
 
 class User(AbstractUser):
-    dni = models.CharField(max_length=10, unique=True, verbose_name='DPI', )
+    dni = models.CharField(max_length=13, unique=True, verbose_name='DPI', )
     date_birthday = models.DateField(default=datetime.now, verbose_name='Fecha de nacimiento')
     address = models.CharField(max_length=150, null=True, blank=True, verbose_name='Dirección')
     gender = models.CharField(max_length=10, choices=(('male','Masculino'),('female','Femenino'),('other','Otro'),), default='male', verbose_name='Genero')

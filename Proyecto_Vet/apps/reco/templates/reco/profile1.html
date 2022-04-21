@@ -1,0 +1,82 @@
+{% extends 'form1.html' %}
+
+{% block content %}
+
+<p>{{status}}</p>
+{% if status == 'Listo' %}
+<div class="alert alert-success alert-dismissible">
+    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+    <h5><i class="icon fas fa-check"></i> Notificación</h5>
+    Listo, su modelo a sido Guardado y Entrenado. {{status}}
+    </div>
+{% endif %}
+
+
+
+
+
+{% for info in informacion %}
+	{% if info.id == user.id %}
+		<table class="table">
+            <tbody>
+            <td>
+            <tr>
+            <td><h5 class="nombres" style='center'>Nombre completo: {{info.first_name}}, {{info.last_name}}</a></h5></td>
+
+            <td> <img src="/media/{{ info.image }}"  width="170" height="170" class="img-responsive thumbnail " alt="img"> </td>											
+            </tr>
+            <tr>
+            <td>	<h5 class="product-username">Nombre de Usuario: {{info.username}}</a></h5>  </td>
+            </tr>
+            <tr>
+            <td>	<h5 class="product-price">Correo Electronico: {{info.email}}</h5>  </td>  </td>
+            </tr>
+            <tr>
+            <td>	<h5 class="product-stock">Fecha de Nacimiento: {{info.date_birthday}}</h5>  </td>  </td>
+            </tr>
+            <tr>
+            <td>	<h5 class="product-username">Tipo de cuenta: {{request.session.group}}</a></h5>  </td>
+            </tr>	
+            </td>
+																		
+				</tbody>
+				</table>
+							{% endif %}												
+					{% endfor %}
+
+
+                    <div class="btn-group" role="group" aria-label="Basic mixed styles example">
+                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal">Registrar Rostro</button>
+                        <a href="/user/change/{{user.id}}" class="btn btn-warning">Editar</a>
+                        <a href="/dashboard/" class="btn btn-danger">Cancelar</a>
+                      </div>
+
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+<div class="modal-dialog" role="document">
+<div class="modal-content">
+<div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+    <h4 class="modal-title" id="myModalLabel">Ingrese su identificación única (descrita a continuación) y espere a la cámara web </h4>
+</div>
+<div class="modal-body">
+    <ul>
+        <li> Para mayor precisión, asegúrese de permanecer en una habitación con buena iluminación. </li>
+        <li> Quite cualquier tipo de accesorio de la cara. </li>
+        <li> Asegúrate de que tu cara esté claramente visible en la cámara. </li>
+        <li> Asegúrese de que su cabello no bloquee la cara. </li>
+        <li> Asegúrese de que no haya otras caras dentro del marco de la cámara. 
+    </ul>
+    <hr/>
+    <form action="create_dataset/" method="POST">
+    {% csrf_token %}
+    <div class="form-group">
+        <label for="inputId">Ingrese su ID único de usuario, su ID es: {{user.id}} </label>
+        <input type="text" class="form-control" name="userId" id="inputId" placeholder="Enter Id">
+    </div>
+    <button type="submit" class="btn btn-warning">Enviar</button>
+    </form>
+</div>
+</div>
+</div>
+</div>
+{% endblock %}

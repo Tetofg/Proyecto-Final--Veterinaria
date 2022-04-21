@@ -1,3 +1,4 @@
+from email.policy import default
 from django.conf import settings
 from django.db import models
 from datetime import datetime
@@ -28,6 +29,14 @@ class Mascotas(models.Model):
     name = models.CharField(max_length=150, verbose_name='Nombre', unique=True)
     cat = models.ForeignKey(Category, on_delete=models.CASCADE)
     image = models.ImageField(upload_to='mascotas/%Y/%m/%d', null=True, blank=True)
+    sta = models.CharField(max_length=11, choices=(('in_adoption','En Adopcion'),('adopted','Adoptado'),), default='in_adoption', verbose_name='Estado')
+    breed = models.CharField(max_length=150, verbose_name='Raza')
+    rescue_date =  models.DateField(default=datetime.now, verbose_name='Fecha de Rescate')
+    age = models.CharField(max_length=3, verbose_name='Edad')
+    illness = models.CharField(max_length=250, verbose_name='Enfermedades Padecidas')
+    food = models.CharField(max_length=250, verbose_name='Alimentación', default='Dog Chow')
+    dpi = models.CharField(max_length=13, verbose_name='DPI')
+    stock = models.IntegerField(default=0, verbose_name='Stock')
 
     def get_image(self):
         if self.image:
@@ -50,11 +59,16 @@ class Mascotas(models.Model):
 
 
 class Adopcion(models.Model):
-    cli = models.ForeignKey(User, on_delete=models.CASCADE)
+    first_name = models.CharField(max_length=150, verbose_name='Nombres')
+    last_name = models.CharField(max_length=150, verbose_name='Apellidos')
+    dpi = models.CharField(max_length=13, verbose_name='DPI', unique=True)
+    motive = models.CharField(max_length=250, verbose_name='Motivo')
+    dire = models.CharField(max_length=50, verbose_name='Direccion')
+    pet = models.OneToOneField(Mascotas, on_delete=models.CASCADE,verbose_name='Mascotas')
     date_adopt = models.DateField(default=datetime.now)
    
-    def str(self):
-        return self.cli.names
+    def __str__(self):
+        return self.first_name
 
     class Meta:
         verbose_name = 'Adopcion'
@@ -62,17 +76,3 @@ class Adopcion(models.Model):
         ordering = ['id']
 
 
-class Detdop(models.Model):
-    adoption = models.ForeignKey(Adopcion, on_delete=models.CASCADE)
-    pet = models.ForeignKey(Mascotas, on_delete=models.CASCADE)
-    raza= models.CharField(max_length=150, verbose_name='Raza')
-    cant = models.IntegerField(default=0)
-   
-
-    def str(self):
-        return self.pet.name
-
-    class Meta:
-        verbose_name = 'Detalle de adopcion'
-        verbose_name_plural = 'Detalle de adopciones'
-        ordering = ['id']

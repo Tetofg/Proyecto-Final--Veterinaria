@@ -166,7 +166,7 @@ class NewUserView(CreateView):
     model = User
     form_class = NewUserForm
     template_name = 'logvet/register.html'
-    success_url = reverse_lazy('user_profile')
+    success_url = reverse_lazy('login')
 
 
     def dispatch(self, request, *args, **kwargs):
@@ -180,6 +180,7 @@ class NewUserView(CreateView):
             if action == 'add':
                 form = self.get_form()
                 data = form.save()
+                request.session['form_message'] = "Usuario Creado, Inicie Sesion por favor."
                 # username = self.request.POST['username']
                 # password = self.request.POST['password']
                 # user = authenticate(request,username=username, password=password)

@@ -192,7 +192,7 @@ def detect(request):
             cv2.waitKey(1000)
             cam.release()
             cv2.destroyAllWindows()
-            request.session['form_message'] = "success"
+            request.session['form_message'] = "Rostro Detectado, Bienvenido"
             return redirect('/login/')
             interface/perfil.html
             #return redirect('/records/details/'+str(userId))

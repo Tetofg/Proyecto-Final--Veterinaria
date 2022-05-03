@@ -17,6 +17,8 @@ STATICFILES_DIRS = (
 
 # SECURITY WARNING: keep the secret key used in production secret!
 
+SECRET_KEY = 'django-insecure-rghkj0d6)$l60a-a5ldmy@5v9cswos6^f6g2j7y_v6%^o$st3w'
+
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
@@ -146,7 +148,7 @@ STATIC_URL = 'static/'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-LOGIN_REDIRECT_URL = "/dashboard/"
+LOGIN_REDIRECT_URL = "/user/profile/"
 LOGIN_URL = '/login/'
 LOGOUT_REDIRECT_URL = '/login/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media/')

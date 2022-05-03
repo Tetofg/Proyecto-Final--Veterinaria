@@ -25,6 +25,22 @@ class Category(models.Model):
         verbose_name_plural = 'Categorias'
         ordering = ['id']
 
+class Vacunas(models.Model):
+    name = models.CharField(max_length=150, verbose_name='Nombre', unique=True)
+    des =  models.CharField(max_length=500, null=True, blank=True, verbose_name='Descripcion')
+
+    def __str__(self):
+        return self.name
+
+    def toJSON(self):
+        item = model_to_dict(self)
+        return item
+
+    class Meta:
+        verbose_name = 'Vacuna'
+        verbose_name_plural = 'Vacunas'
+        ordering = ['id']
+
 class Mascotas(models.Model):
     name = models.CharField(max_length=150, verbose_name='Nombre', unique=True)
     cat = models.ForeignKey(Category, on_delete=models.CASCADE)
@@ -36,8 +52,7 @@ class Mascotas(models.Model):
     illness = models.CharField(max_length=250, verbose_name='Enfermedades Padecidas')
     food = models.CharField(max_length=250, verbose_name='Alimentación', default='Dog Chow')
     dpi = models.CharField(max_length=13, verbose_name='DPI')
-    stock = models.IntegerField(default=0, verbose_name='Stock')
-
+    vaccine = models.ManyToManyField(Vacunas,verbose_name='Vacunas')
     def get_image(self):
         if self.image:
             return '{}{}'.format(MEDIA_URL, self.image)
@@ -49,6 +64,7 @@ class Mascotas(models.Model):
     def toJSON(self):
         item = model_to_dict(self)
         item['cat'] = self.cat.toJSON()
+        item['vaccine'] = [{'id': g.id, 'name': g.name} for g in self.vaccine.all()]
         item['image'] = self.get_image()
         return item
 

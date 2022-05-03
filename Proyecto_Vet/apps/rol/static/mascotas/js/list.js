@@ -16,11 +16,24 @@ $(function () {
             {"data": "id"},
             {"data": "name"},
             {"data": "cat.name"},
+            {"data": "vaccine"},
             {"data": "sta"},
             {"data": "image"},
             {"data": "id"},
         ],
         columnDefs: [
+            {
+                targets: [-4],
+                class: 'text-center',
+                orderable: false,
+                render: function (data, type, row) {
+                    var html = '';
+                    $.each(row.vaccine, function(key, value){
+                        html+='<span class= "badge badge-info">'+value.name+'</span>';
+                    });
+                    return html;
+                }
+            },
             {
                 targets: [-3],
                 class: 'text-center',

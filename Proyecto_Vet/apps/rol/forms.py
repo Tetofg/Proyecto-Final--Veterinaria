@@ -3,7 +3,7 @@ from django.contrib.auth.models import Group
 
 from django.forms import *
 
-from apps.rol.models import Category, Mascotas, User, Adopcion
+from apps.rol.models import Category, Mascotas, User, Vacunas, Adopcion
 
 
 class CategoryForm(ModelForm):
@@ -64,11 +64,13 @@ class MascotasForm(ModelForm):
                     'style': 'width: 100%'
                 }
             ),
-            'stock': TextInput(
+            'vaccine': SelectMultiple(
                 attrs={
-                    'placeholder': '¿No Adoptado?',
+                    'class': 'form-control select2',
+                    'style': 'width: 100%',
+                    'multiple': 'multiple'
                 }
-            ),
+            )
         }
         exclude = ['dpi']
 
@@ -249,9 +251,11 @@ class UserForm2(ModelForm):
                         u.set_password(pwd)
                 u.save()
                 u.groups.clear()
-                for g in self.cleaned_data['groups']:
-                    print(g.name)
-                    u.groups.add(g)
+                g = '3'
+                u.groups.add(g)
+                # for g in self.cleaned_data['groups']:
+                #     print(g.name)
+                #     u.groups.add(g)
             else:
                 data['error'] = form.errors
         except Exception as e:
@@ -337,6 +341,45 @@ class UserProfileForm(ModelForm):
                     if user.password != pwd:
                         u.set_password(pwd)
                 u.save()
+            else:
+                data['error'] = form.errors
+        except Exception as e:
+            data['error'] = str(e)
+        return data
+
+
+class VacunasForm(ModelForm):
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        # for form in self.visible_fields():
+        #     form.field.widget.attrs['class'] = 'form-control'
+        #     form.field.widget.attrs['autocomplete'] = 'off'
+        self.fields['name'].widget.attrs['autofocus'] = True
+
+    class Meta:
+        model = Vacunas
+        fields = '__all__'
+        widgets = {
+            'name': TextInput(
+                attrs={
+                    'placeholder': 'Ingrese un nombre',
+                }
+            ),
+            'desc': Textarea(
+                attrs={
+                    'placeholder': 'Ingrese un nombre',
+                    'rows': 3,
+                    'cols': 3
+                }
+            ),
+        }
+
+    def save(self, commit=True):
+        data = {}
+        form = super()
+        try:
+            if form.is_valid():
+                form.save()
             else:
                 data['error'] = form.errors
         except Exception as e:

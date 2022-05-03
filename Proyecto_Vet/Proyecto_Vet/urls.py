@@ -4,6 +4,7 @@ from apps.reco.views import *
 from apps.rol.views.mascotas.views import *
 from apps.rol.views.dashboard.views import *
 from apps.rol.views.user.views import *
+from apps.rol.views.vacunas.views import *
 from apps.rol.views.category.views3 import *
 from apps.homepage.views4 import *
 from django.conf import settings
@@ -17,6 +18,11 @@ urlpatterns = [
     path('category/create/',  CategoryCreateView.as_view(), name='category_create' ),
     path('category/delete/<int:pk>/',  CategoryDeleteView.as_view(), name='category_delete' ),
     path('category/edit/<int:pk>/', CategoryUpdateView.as_view(), name='category_update'),
+    #Vacunas
+    path('vaccine/list/',  VacunasListView.as_view(), name='vacunas_list' ),
+    path('vaccine/create/',  VacunasCreateView.as_view(), name='vacunas_create' ),
+    path('vaccine/delete/<int:pk>/',  VacunasDeleteView.as_view(), name='vacunas_delete' ),
+    path('vaccine/edit/<int:pk>/', VacunasUpdateView.as_view(), name='vacunas_update'),
     #Sitio Base
     path('', IndexView.as_view(), name ='index'),
     path('mascotas-en-adopcion/', MascotasView.as_view(), name ='mascadop'),

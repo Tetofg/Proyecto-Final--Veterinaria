@@ -53,6 +53,8 @@ urlpatterns = [
     path('user/profile/create_dataset/', create_dataset, name='reconocimiento'),
     path('trainer/', trainer, name='entrenador'),
     path('login/auth/', detect, name='detector'),
+    path('cam/', CamView.as_view(), name = 'cam'),
+    
     
 ]
 

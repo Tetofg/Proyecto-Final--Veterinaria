@@ -12,6 +12,10 @@ $(function () {
             },
             dataSrc: ""
         },
+        buttons: [
+            'copy', 'excel', 'pdf'
+        ],
+        
         columns: [
             {"data": "id"},
             {"data": "full_name"},

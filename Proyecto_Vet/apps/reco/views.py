@@ -1,3 +1,4 @@
+from pipes import Template
 from django.shortcuts import render, redirect
 import cv2
 import numpy as np
@@ -18,6 +19,9 @@ import pickle
 from django.views.decorators.csrf import csrf_exempt
 from Proyecto_Vet.settings import BASE_DIR
 from django.contrib.messages import success
+
+from django.views.generic import TemplateView
+
 # Create your views here.
 #def index(request):
 #    return render(request, 'index.html')
@@ -36,6 +40,8 @@ def create_dataset(request):
     
     #camture images from the webcam and process and detect the face
     # takes video capture id, for webcam most of the time its 0.
+    nombreVentana = "camara"
+    cv2.namedWindow(nombreVentana)
     cam = cv2.VideoCapture(0)
 
     # Our identifier
@@ -151,6 +157,7 @@ def detect(request):
     faceDetect = cv2.CascadeClassifier(cv2.data.haarcascades + "haarcascade_frontalface_default.xml")
 
     cam = cv2.VideoCapture(0)
+
     # creating recognizer
     rec = cv2.face.LBPHFaceRecognizer_create();
     # loading the training data
@@ -201,3 +208,5 @@ def detect(request):
     cv2.destroyAllWindows()
     return redirect('/logout/')
 
+class CamView(TemplateView):
+    template_name = 'reco/access.html'

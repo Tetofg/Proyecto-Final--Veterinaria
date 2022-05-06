@@ -8,8 +8,9 @@ from apps.rol.mixins import ValidatePermissionRequiredMixin
 class DashboardView(LoginRequiredMixin, TemplateView, ValidatePermissionRequiredMixin):
     template_name = 'dashboard.html'
     success_url = reverse_lazy('user_list')
-    permission_required = 'delete_user'
+    #permission_required = 'view_mascotas'
     url_redirect = success_url
+
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['panel'] = 'Panel de Administrador'

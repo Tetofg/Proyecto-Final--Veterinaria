@@ -61,7 +61,7 @@ $(function () {
                             columns: [
                                 {
                                     alignment: 'left',
-                                    text: ['Fecha de creación: ', {text: 'Hoy'}]
+                                    text: ['Fecha de creación: ', {text: "Hoy"}]
                                 },
                                 {
                                     alignment: 'right',
@@ -82,8 +82,8 @@ $(function () {
             {"data": "username"},
             {"data": "groups"},
             {"data": "date_joined"},
-            {"data": "image"},
-            {"data": "id"},
+            {"data": "dni"},
+            {"data": "address"},
         ],
         columnDefs: [
             {
@@ -96,24 +96,6 @@ $(function () {
                         html+='<span class= "badge badge-success">'+value.name+'</span>';
                     });
                     return html;
-                }
-            },
-            {
-                targets: [-2],
-                class: 'text-center',
-                orderable: false,
-                render: function (data, type, row) {
-                    return '<img src="'+row.image+'" class="img-fluid mx-auto d-block" style="width: 40px; height: 40px;">';
-                }
-            },
-            {
-                targets: [-1],
-                class: 'text-center',
-                orderable: false,
-                render: function (data, type, row) {
-                    var buttons = '<a href="/user/update/' + row.id + '/" class="btn btn-warning btn-xs btn-flat"><i class="fas fa-edit"></i></a> ';
-                    buttons += '<a href="/user/delete/' + row.id + '/" type="button" class="btn btn-danger btn-xs btn-flat"><i class="fas fa-trash-alt"></i></a>';
-                    return buttons;
                 }
             },
         ],

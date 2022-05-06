@@ -54,7 +54,9 @@ urlpatterns = [
     path('trainer/', trainer, name='entrenador'),
     path('login/auth/', detect, name='detector'),
     path('cam/', CamView.as_view(), name = 'cam'),
-    
+    #Reportes
+    path('user/report/', UserReportView.as_view(), name='user_report'),
+    path('mascotas/report/', MascotasReportView.as_view(), name='mascotas_report'),
     
 ]
 

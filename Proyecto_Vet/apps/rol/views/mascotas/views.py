@@ -155,7 +155,7 @@ class MascotasDeleteView(LoginRequiredMixin, ValidatePermissionRequiredMixin, De
         context['list_url'] = self.success_url
         return context
 
-class MisMascotasListView(LoginRequiredMixin, ValidatePermissionRequiredMixin, ListView):
+class MascotasReportView(LoginRequiredMixin, ValidatePermissionRequiredMixin, ListView):
     model = Mascotas
     template_name = 'mascotas/listm.html'
     permission_required = 'view_mascotas'
@@ -170,11 +170,21 @@ class MisMascotasListView(LoginRequiredMixin, ValidatePermissionRequiredMixin, L
             action = request.POST['action']
             if action == 'searchdata':
                 data = []
-                data2 = []
-                a = User.objects.get(pk=self.request.user_id)
-                print(a)
-                for i in Mascotas.objects.all():
-                    data.append(i.toJSON())
+                a = User.objects.get(pk=request.user.id)
+                b = a.dni
+                c = Group.objects.get(user=request.user.id)
+                if str(c) == 'AdminVet' or str(c) == 'AdminTotal':
+                    for i in Mascotas.objects.all():
+                        data.append(i.toJSON())
+                if str(c) == 'Adoptante':
+                    aa = Adopcion.objects.get(dpi=b)
+                    bb = aa.dpi
+                    dd = aa.pet
+                    if bb == b:
+                        c = Mascotas.objects.get(name=dd)
+                        data.append(c.toJSON())
+                # for i in Mascotas.objects.all():
+                #     data.append(i.toJSON())
             else:
                 data['error'] = 'Ha ocurrido un error'
         except Exception as e:
@@ -183,7 +193,7 @@ class MisMascotasListView(LoginRequiredMixin, ValidatePermissionRequiredMixin, L
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['title'] = 'Listado de Mascotas'
+        context['title'] = 'Reporte de Mascotas'
         context['create_url'] = reverse_lazy('mascotas_create')
         context['list_url'] = reverse_lazy('mascotas_list')
         context['entity'] = 'Mascotas'

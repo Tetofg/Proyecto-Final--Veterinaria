@@ -40,8 +40,6 @@ def create_dataset(request):
     
     #camture images from the webcam and process and detect the face
     # takes video capture id, for webcam most of the time its 0.
-    nombreVentana = "camara"
-    cv2.namedWindow(nombreVentana)
     cam = cv2.VideoCapture(0)
 
     # Our identifier
@@ -156,12 +154,11 @@ def trainer(request):
 def detect(request):
     faceDetect = cv2.CascadeClassifier(cv2.data.haarcascades + "haarcascade_frontalface_default.xml")
 
-    cam = cv2.VideoCapture(0)
-
+    cam = cv2.VideoCapture(-1)
     # creating recognizer
     rec = cv2.face.LBPHFaceRecognizer_create();
     # loading the training data
-    rec.read('/Users/Roberto/Documents/Proyectos/Proyecto Final/Proyecto_Vet/ml/recognizer/trainingData.yml')
+    rec.read('/code/Proyecto_Vet//ml/recognizer/trainingData.yml')
     getId = 0
     font = cv2.FONT_HERSHEY_SIMPLEX
     userId = 0

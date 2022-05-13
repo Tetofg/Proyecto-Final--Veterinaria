@@ -5,7 +5,7 @@ from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
 from axes.decorators import axes_dispatch
 from apps.logvet.forms1 import NewUserForm
-
+from django.views.decorators.csrf import csrf_exempt, csrf_protect
 from django.contrib.auth import login, logout, authenticate
 from django.shortcuts import redirect, render
 from django.contrib.auth.views import LoginView, LogoutView
@@ -36,9 +36,10 @@ class LoginFormView(LoginView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['title'] = 'Iniciar sesión'
+        context['message'] = 'Bienvenido Usuario Ingresa Sesion'
         return context
 
-
+@csrf_exempt
 class LoginFormView2(FormView):
     form_class = AuthenticationForm
     template_name = 'login/login.html'

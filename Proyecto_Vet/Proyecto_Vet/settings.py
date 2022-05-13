@@ -4,6 +4,7 @@ from pathlib import Path
 import os
 from re import template
 
+
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
@@ -22,7 +23,7 @@ SECRET_KEY = 'django-insecure-rghkj0d6)$l60a-a5ldmy@5v9cswos6^f6g2j7y_v6%^o$st3w
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -98,12 +99,12 @@ WSGI_APPLICATION = 'Proyecto_Vet.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'Veterinaria',
-        'USER': 'adminvet',
-        'PASSWORD': '123fgthg',
-        'HOST': 'localhost',
-        'PORT': '5432'
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': os.environ.get('DB_NAME'),
+        'USER': os.environ.get('DB_USER'),
+        'PASSWORD': os.environ.get('DB_PASSWORD'),
+        'HOST': os.environ.get('DB_HOST'),
+        #'PORT': '5432', 
     }
 }
 
@@ -155,7 +156,7 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media/')
 MEDIA_URL = '/media/'
 AUTH_USER_MODEL = 'user.User'
 SESSION_SERIALIZER = 'django.contrib.sessions.serializers.PickleSerializer'
-
+CSRF_TRUSTED_ORIGINS = ['http://localhost:8000']
 # Email
 
 EMAIL_HOST = 'smtp.gmail.com'
@@ -177,3 +178,6 @@ AUTHENTICATION_BACKENDS = [
     # Django ModelBackend is the default authentication backend.
     'django.contrib.auth.backends.ModelBackend',
 ]
+
+AXES_ONLY_USER_FAILURES = True
+AXES_FAILURE_LIMIT = 6
